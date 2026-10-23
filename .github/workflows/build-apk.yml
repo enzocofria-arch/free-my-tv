@@ -5,13 +5,14 @@ on:
     inputs:
       city:
         description: "Nome da cidade"
-        default: "Fortaleza"
+        default: "Cacimba de Dentro"
       latitude:
         description: "Latitude"
-        default: "-3.7319"
+        default: "-6.6433"
       longitude:
         description: "Longitude"
-        default: "-38.5267"
+        default: "-35.7797"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,10 +30,12 @@ jobs:
       - name: Configuracao
         env:
           CITY: ${{ inputs.city }}
-          LAT: ${{ inputs.latitude }}
-          LON: ${{ inputs.longitude }}
+          LAT_IN: ${{ inputs.latitude }}
+          LON_IN: ${{ inputs.longitude }}
           TMDB: ${{ secrets.TMDB_KEY }}
         run: |
+          LAT=$(printf '%s' "$LAT_IN" | tr ',' '.' | tr -cd '0-9.-')
+          LON=$(printf '%s' "$LON_IN" | tr ',' '.' | tr -cd '0-9.-')
           cp config.example.properties config.properties
           sed -i \
             -e "s|^tmdb_key=.*|tmdb_key=${TMDB}|" \
