@@ -12,10 +12,6 @@ on:
       longitude:
         description: "Longitude"
         default: "-38.5267"
-      tmdb_key:
-        description: "Chave do TMDB (opcional)"
-        default: ""
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,7 +31,7 @@ jobs:
           CITY: ${{ inputs.city }}
           LAT: ${{ inputs.latitude }}
           LON: ${{ inputs.longitude }}
-          TMDB: ${{ inputs.tmdb_key }}
+          TMDB: ${{ secrets.TMDB_KEY }}
         run: |
           cp config.example.properties config.properties
           sed -i \
